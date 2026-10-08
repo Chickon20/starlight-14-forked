@@ -1,0 +1,98 @@
+- type: entity
+  id: distillery
+  parent: BaseMachinePowered
+  name: Distillery
+  description: A distillery for refining alcohol.
+  components:
+  - type: Sprite
+    sprite: _Ronstation/alcohol-making/distillery.rsi
+    snapCardinals: true
+    layers:
+      - state: standby
+        map: ["base"]
+  - type: ChildEntities
+    childPrototypes:
+    - prototype: DistilleryAlcoholPort
+      offset: -0.35, -0.55
+    - prototype: DistilleryFineAlcoholPort
+      offset: 0, -0.55
+    - prototype: DistilleryCoolantPort
+      offset: 0.35, -0.55
+
+- type: entity
+  id: DistilleryAlcoholPort
+  name: distillery alcohol port
+  description: The distillery's alcohol reservoir port.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Clickable
+  - type: InteractionOutline
+  - type: Sprite
+    sprite: Objects/Specific/Chemistry/beaker.rsi
+    layers:
+    - state: beaker
+      scale: 0.5, 0.5
+      color: "#C78B48"
+  - type: SolutionContainerManager
+    solutions:
+      alcohol:
+        maxVol: 400
+  - type: DrainableSolution
+    solution: alcohol
+  - type: RefillableSolution
+    solution: alcohol
+  - type: ExaminableSolution
+    solution: alcohol
+    exactVolume: true
+
+- type: entity
+  id: DistilleryFineAlcoholPort
+  name: distillery fine alcohol port
+  description: The distillery's fine alcohol reservoir port.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Clickable
+  - type: InteractionOutline
+  - type: Sprite
+    sprite: Objects/Specific/Chemistry/beaker.rsi
+    layers:
+    - state: beaker
+      scale: 0.5, 0.5
+      color: "#E6D5A8"
+  - type: SolutionContainerManager
+    solutions:
+      fine_alcohol:
+        maxVol: 100
+  - type: DrainableSolution
+    solution: fine_alcohol
+  - type: RefillableSolution
+    solution: fine_alcohol
+  - type: ExaminableSolution
+    solution: fine_alcohol
+    exactVolume: true
+
+- type: entity
+  id: DistilleryCoolantPort
+  name: distillery coolant port
+  description: The distillery's coolant reservoir port.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Clickable
+  - type: InteractionOutline
+  - type: Sprite
+    sprite: Objects/Specific/Chemistry/beaker.rsi
+    layers:
+    - state: beaker
+      scale: 0.5, 0.5
+      color: "#69B6D4"
+  - type: SolutionContainerManager
+    solutions:
+      coolant:
+        maxVol: 200
+  - type: DrainableSolution
+    solution: coolant
+  - type: RefillableSolution
+    solution: coolant
+  - type: ExaminableSolution
+    solution: coolant
+    exactVolume: true
