@@ -2,36 +2,63 @@
   id: distillery
   parent: BaseMachinePowered
   name: Distillery
-  description: A distillery for refining alcohol.
+  description: A distillery for concentrating substances.
+  Powered by logs.
   components:
   - type: Sprite
     sprite: _Ronstation/alcohol-making/distillery.rsi
     snapCardinals: true
+    drawdepth: Mobs
     layers:
       - state: standby
         map: ["base"]
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeAabb
+          bounds: "-0.8,-0.5,0.6,-0.2"
+        density: 190
+        mask:
+        - MachineMask
+        layer:
+        - MachineLayer
+  - type: ItemSlots
+    slots:
+      log_slot:
+        name: distillery-log-slot
+        whitelist:
+          components:
+          - Log
+  - type: ContainerContainer
+    containers:
+      log_slot: !type:ContainerSlot
+  - type: Battery
+    maxCharge: 10000
+    startingCharge: 0
+  - type: ExaminableBattery
   - type: ChildEntities
     childPrototypes:
-    - prototype: DistilleryAlcoholPort
-      offset: -0.35, -0.55
-    - prototype: DistilleryFineAlcoholPort
-      offset: 0, -0.55
-    - prototype: DistilleryCoolantPort
-      offset: 0.35, -0.55
+    - prototype: DistilleryInput
+      offset: -0.45, 0.1
+    - prototype: DistilleryOutput
+      offset: 0.45, -0.4
+    - prototype: DistilleryCoolant
+      offset: 0.45, 0.2
 
 - type: entity
-  id: DistilleryAlcoholPort
-  name: distillery alcohol port
-  description: The distillery's alcohol reservoir port.
+  id: DistilleryInput
+  name: distillery input
+  description: The distillery's input reservoir.
   categories: [ HideSpawnMenu ]
   components:
   - type: Clickable
   - type: InteractionOutline
   - type: Sprite
+    drawdepth: OverMobs
     sprite: Objects/Specific/Chemistry/beaker.rsi
     layers:
     - state: beaker
-      scale: 0.5, 0.5
       color: "#C78B48"
   - type: SolutionContainerManager
     solutions:
@@ -46,18 +73,18 @@
     exactVolume: true
 
 - type: entity
-  id: DistilleryFineAlcoholPort
-  name: distillery fine alcohol port
-  description: The distillery's fine alcohol reservoir port.
+  id: DistilleryOutput
+  name: distillery output
+  description: The distillery's output reservoir.
   categories: [ HideSpawnMenu ]
   components:
   - type: Clickable
   - type: InteractionOutline
   - type: Sprite
+    drawdepth: OverMobs
     sprite: Objects/Specific/Chemistry/beaker.rsi
     layers:
     - state: beaker
-      scale: 0.5, 0.5
       color: "#E6D5A8"
   - type: SolutionContainerManager
     solutions:
@@ -65,25 +92,23 @@
         maxVol: 100
   - type: DrainableSolution
     solution: fine_alcohol
-  - type: RefillableSolution
-    solution: fine_alcohol
   - type: ExaminableSolution
     solution: fine_alcohol
     exactVolume: true
 
 - type: entity
-  id: DistilleryCoolantPort
-  name: distillery coolant port
-  description: The distillery's coolant reservoir port.
+  id: DistilleryCoolant
+  name: distillery coolant
+  description: The distillery's coolant reservoir.
   categories: [ HideSpawnMenu ]
   components:
   - type: Clickable
   - type: InteractionOutline
   - type: Sprite
+    drawdepth: OverMobs
     sprite: Objects/Specific/Chemistry/beaker.rsi
     layers:
     - state: beaker
-      scale: 0.5, 0.5
       color: "#69B6D4"
   - type: SolutionContainerManager
     solutions:
@@ -93,6 +118,9 @@
     solution: coolant
   - type: RefillableSolution
     solution: coolant
+  - type: RefillReagentFilter
+    reagents:
+    - Water
   - type: ExaminableSolution
     solution: coolant
     exactVolume: true
